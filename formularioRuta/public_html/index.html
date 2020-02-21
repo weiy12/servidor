@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Empresa</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            td  
+    {  
+
+        vertical-align: middle;
+        text-align: center;
+        text-overflow:ellipsis;
+        word-break:keep-all; 
+        white-space:nowrap;
+    }
+        </style>
+        <script>
+            function val(){
+                var minimo=0;
+               var ini=document.getElementById("local").value;
+               var des1=document.getElementById("destino1").value;
+                 var des2=document.getElementById("destino2").value;
+                   var des3=document.getElementById("destino3").value;  
+                   var des4=document.getElementById("destino4").value;
+                     var des5=document.getElementById("destino5").value;
+                       var des6=document.getElementById("destino6").value;
+                         var des7=document.getElementById("destino7").value;
+                           var des8=document.getElementById("destino8").value;
+                          var ini1;
+                          var des11;
+                          var des22;
+                          var des33;
+                          var des44;
+                          var des55;
+                          var des66;
+                          var des77;
+                          var des88;
+                      if(ini=="Tetuan"){
+                          ini1=0;
+                      }else if(ini=="LasRosas"){
+                          ini1=1
+                      }else ini1=2;
+                         if(des1=="Tetuan"){
+                          des11=0;
+                      }else if(des1=="LasRosas"){
+                          des11=1
+                      }else des11=2;
+                       if(des2=="Tetuan"){
+                          des22=0;
+                      }else if(des2=="LasRosas"){
+                          des22=1
+                      }else des22=2;
+                       if(des3=="Tetuan"){
+                          des33=0;
+                      }else if(des3=="LasRosas"){
+                          des33=1
+                      }else des33=2;
+                       if(des4=="Tetuan"){
+                          des44=0;
+                      }else if(des4=="LasRosas"){
+                          des44=1
+                      }else des44=2;
+                       if(des5=="Tetuan"){
+                          des55=0;
+                      }else if(des5=="LasRosas"){
+                          des55=1
+                      }else des55=2;
+                       if(des6=="Tetuan"){
+                          des66=0;
+                      }else if(des6=="LasRosas"){
+                          des66=1
+                      }else des66=2;
+                       if(des7=="Tetuan"){
+                          des77=0;
+                      }else if(des7=="LasRosas"){
+                          des77=1
+                      }else des77=2;
+                       if(des8=="Tetuan"){
+                          des88=0;
+                      }else if(des8=="LasRosas"){
+                          des88=1
+                      }else des88=2;
+                          minimo==ini1+des11+des22+des33+des44+des55+des66+des77+des88;
+                          if(minimo==0){
+                             document.getElementById("minima").innerHTML=minimo;
+                          }else 
+                              //no se fuera de poner 100000 if para seleccionarlo que puede hacer, he visto dijkstra para calcular ruta minima , pero el tiene un camino final para calcular, no se funciona para eso.
+                            document.getElementById("minima").innerHTML=minimo;
+
+
+var csvJson;
+var downName = "csv";
+JSonToCSV.setDataConver({
+	  data: csvJson,
+	  fileName: downloadName,
+	  columns: {
+	    title: ['inicio','des1','des2','des3','des4','des5','des6','des7','des8'],//csv表头
+	    key: [ini, des1,des2,des3,des4,des5,des6,des7,des8],
+	    formatter: function(n, v) {
+			if(n === 'avg_click_user_cnt') {
+		      	return Number(v).toFixed(2);
+			}
+			if(v === undefined){
+				return " ";
+			}
+	    }
+	  }
+	});
+
+
+                       
+            }
+            
+(function( global, factory ) {
+  "use strict";
+  if(typeof module === "object" && typeof module.exports === "object" ) {
+    module.exports = global.document ?
+			factory( global, true ) :
+			function(w) {
+				return factory(w);
+			};
+	} else {
+		factory(global);
+	}
+})(window, function(){
+  var JSonToCSV = {
+    /*
+     * obj es un objeto：
+     * ## data es dato
+     * ## fileName es el nombre
+     * ## showLabel presenta cabeza
+     * ## columns objeto de cabeza incluye title y key
+          title:[], // letra de inicio
+          key:[], // Key 
+          formatter: function() // meter datos (key, value)
+     */
+    setDataConver: function(obj) {
+      var bw = this.browser();
+      if(bw['ie'] < 9) return; // bajo de EI9
+      var data = obj['data'],
+          ShowLabel = typeof obj['showLabel'] === 'undefined' ? true : obj['showLabel'],
+          fileName = (obj['fileName'] || 'UserExport') + '.csv',
+          columns = obj['columns'] || {
+              title: [],
+              key: [],
+              formatter: undefined
+          };
+      var ShowLabel = typeof ShowLabel === 'undefined' ? true : ShowLabel;
+      var row = "", CSV = '', key;
+     
+      if (ShowLabel) {
+  
+          if (columns.title.length) {
+              columns.title.map(function(n) {
+                  row += n + ',';
+              });
+          } else {
+              //  si no existe , coge datos del primero
+              for (key in data[0]) row += key + ',';
+          }
+          row = row.slice(0, -1); // elimina ultima，即a,b, => a,b
+          CSV += row + '\r\n'; // cambiar simbolo
+      }
+      // acceso de los datos 
+      data.map(function(n) {
+          row = '';
+          // si configurar los datos
+          if (columns.key.length) {
+              columns.key.map(function(m) {
+                  row += '"' + (typeof columns.formatter === 'function' ? columns.formatter(m, n[m]) || n[m] : n[m]) + '",';
+              });
+          } else {
+              for (key in n) {
+                  row += '"' + (typeof columns.formatter === 'function' ? columns.formatter(key, n[key]) || n[key] : n[key]) + '",';
+              }
+          }
+          row.slice(0, row.length - 1); // elimina ultima
+          CSV += row + '\r\n'; // cambiar simbolo
+      });
+      if(!CSV) return;
+      this.SaveAs(fileName, CSV);
+    },
+    SaveAs: function(fileName, csvData) {
+      var bw = this.browser();
+      if(!bw['edge'] && !bw['ie']) {
+        var alink = document.createElement("a");
+        alink.id = "linkDwnldLink";
+        alink.href = this.getDownloadUrl(csvData);
+        document.body.appendChild(alink);
+        var linkDom = document.getElementById('linkDwnldLink');
+        linkDom.setAttribute('download', fileName);
+        linkDom.click();
+        document.body.removeChild(linkDom);
+      }
+      else if(bw['ie'] >= 10 || bw['edge'] == 'edge') {
+        var _utf = "\uFEFF";
+        var _csvData = new Blob([_utf + csvData], {
+            type: 'text/csv'
+        });
+        window.navigator.msSaveBlob(_csvData, fileName);
+      }
+      else {
+        var oWin = window.top.open("about:blank", "_blank");
+        oWin.document.write('sep=,\r\n' + csvData);
+        oWin.document.close();
+        oWin.document.execCommand('SaveAs', true, fileName);
+        oWin.close();
+      }
+    },
+    getDownloadUrl: function(csvData) {
+      var _utf = "\uFEFF"; // para solucionar el problema de que no se puede leer
+      if (window.Blob && window.URL && window.URL.createObjectURL) {
+          var csvData = new Blob([_utf + csvData], {
+              type: 'text/csv'
+          });
+          return URL.createObjectURL(csvData);
+      }
+      // return 'data:attachment/csv;charset=utf-8,' + _utf + encodeURIComponent(csvData);
+    },
+    browser: function() {
+      var Sys = {};
+      var ua = navigator.userAgent.toLowerCase();
+      var s;
+      (s = ua.indexOf('edge') !== - 1 ? Sys.edge = 'edge' : ua.match(/rv:([\d.]+)\) like gecko/)) ? Sys.ie = s[1]:
+          (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] :
+          (s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] :
+          (s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] :
+          (s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] :
+          (s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+      return Sys;
+    }
+  };
+  window.JSonToCSV = JSonToCSV;
+});
+
+            </script>
+    </head>
+    <body>
+                      
+<?php
+$list = array
+(
+ini,John,Thomas,USA,
+"James,Adrew,Martin,USA",
+);
+
+$file = fopen("contacts.csv","w");
+
+foreach ($list as $line)
+  {
+  fputcsv($file,split(',',$line));
+  }
+
+fclose($file);
+?>
+        <h1>Calcular las distancias de la ruta</h1>
+        <table>
+  
+            <td>
+            <p>Desde</p>
+                
+            <select id="local">
+                <option value="Tetuan" >Tetuan </option>
+                  <option value="LasRosas" >LasRosas </option>
+                   <option value="RioMadrid" >RioMadrid </option>
+
+            </select>
+
+                 <p>Hacia</p>
+            <select id="destino1">
+                <option value="Tetuan" >Tetuan </option>
+                  <option value="LasRosas" >LasRosas </option>
+                   <option value="RioMadrid" >RioMadrid </option>
+            </select>
+              <select id="destino2">
+                <option value="Tetuan" >Tetuan </option>
+                  <option value="LasRosas" >LasRosas </option>
+                   <option value="RioMadrid" >RioMadrid </option>
+            </select>
+                    <select id="destino3">
+                <option value="Tetuan" >Tetuan </option>
+                  <option value="LasRosas" >LasRosas </option>
+                   <option value="RioMadrid" >RioMadrid </option>
+            </select>
+                         <select id="destino4">
+                <option value="Tetuan" >Tetuan </option>
+                  <option value="LasRosas" >LasRosas </option>
+                   <option value="RioMadrid" >RioMadrid </option>
+            </select>
+                           <select id="destino5">
+                <option value="Tetuan" >Tetuan </option>
+                  <option value="LasRosas" >LasRosas </option>
+                   <option value="RioMadrid" >RioMadrid </option>
+            </select>
+                           <select id="destino6">
+                <option value="Tetuan" >Tetuan </option>
+                  <option value="LasRosas" >LasRosas </option>
+                   <option value="RioMadrid" >RioMadrid </option>
+            </select>
+                             <select id="destino7">
+                <option value="Tetuan" >Tetuan </option>
+                  <option value="LasRosas" >LasRosas </option>
+                   <option value="RioMadrid" >RioMadrid </option>
+            </select>
+                            <select id="destino8">
+                <option value="Tetuan" >Tetuan </option>
+                  <option value="LasRosas" >LasRosas </option>
+                   <option value="RioMadrid" >RioMadrid </option>
+            </select>
+               <p>
+        <input type="button" value="calcualar" id="cal" onclick="val()">
+    </p>
+</td>
+     
+            </table>
+        <p>Ruta minima para recorrer：</p>
+      
+        <div id="minima"></div>
+        
+    </body>
+</html>
